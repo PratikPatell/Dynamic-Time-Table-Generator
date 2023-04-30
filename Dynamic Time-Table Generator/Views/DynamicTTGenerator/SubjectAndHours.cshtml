@@ -1,0 +1,41 @@
+﻿
+@model Dynamic_Time_Table_Generator.Models.SubjectAndHoursViewModel
+@{
+    ViewData["Title"] = "DynamicTTGenerator";
+}
+<script src="~/js/DynamicTTGenerator.js"></script>
+
+    <h2 align="center">Dynamic Time-Table Generator</h2>
+    <div id="daysandNoOfSubject" class="form-horizontal" style="margin-top:50px">
+        @if (Model != null)
+        {
+            <p align="center">Total Hours For Week : <B>@Model.HoursForWeek Hours </B> </p>
+            @Html.HiddenFor(model => model.TotalSubject, new { htmlAttributes = new { @class = "form-control", @id = "TotalSubject" } })
+            @Html.HiddenFor(model => model.HoursForWeek, new { htmlAttributes = new { @class = "form-control", @id = "HoursForWeek" } })
+            @Html.HiddenFor(model => model.WorkingDays, new { htmlAttributes = new { @class = "form-control", @id = "WorkingDays" } })
+            @Html.HiddenFor(model => model.SubjectPerDay, new { htmlAttributes = new { @class = "form-control", @id = "SubjectPerDay" } })
+            if (Model.TotalSubject > 0)
+            {
+                for (int i = 0; i < Model.TotalSubject; i++)
+                {
+                    <div class=" form-group" align="center">
+                        <div class="col-md-10">
+                            <label class="control-label col-md-2">Subject Name</label>
+                            <input type="text" id="SubjectName_@i" name="SubjectName_@i" onkeydown="return alphaOnly(event);">
+                            <label class="control-label col-md-1">Hours</label>
+                            <input type="text" id="hoursOfSubject_@i" name="hoursOfSubject_@i" onkeypress="return onlyNumberKey(event)">
+                        </div>
+                    </div>
+                }
+
+            }
+
+        }
+
+        <br>
+        <div class="form-group" align="center">
+            <button class="btn btn-primary" onclick="GenerateDynamicTimeTable()" type="submit">Submit</button>
+        </div>
+    </div>
+<br />
+    <div id="TT" align="center"></div>
